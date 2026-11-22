@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SafePlate{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <a class="logo" href="{{ url_for('index') }}">SafePlate</a>
+    <nav>
+      <a href="{{ url_for('index') }}">Kitchens</a>
+      <a href="{{ url_for('cart') }}">Cart</a>
+      <a href="{{ url_for('admin') }}">Inspector desk</a>
+    </nav>
+  </header>
+  <main>
+    {% for message in get_flashed_messages() %}
+      <p class="flash">{{ message }}</p>
+    {% endfor %}
+    {% block body %}{% endblock %}
+  </main>
+</body>
+</html>

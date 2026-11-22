@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block body %}<h1>Inspector desk</h1>
+<form class="inspect" method="post"><h2>Record an inspection</h2>
+<select name="rid">{% for r in rs %}<option value="{{ r.id }}">{{ r.name }}</option>{% endfor %}</select>
+<input name="inspector" placeholder="Inspector name" required>
+{% for k, (label, w) in checks.items() %}<label><input type="checkbox" name="{{ k }}"> {{ label }} ({{ w }} pts)</label>{% endfor %}
+<textarea name="notes" placeholder="Notes shown to customers"></textarea><button>Publish result</button></form>
+<h2>Customer reports</h2>{% for p in reports %}<p class="dish"><span><b>{{ p.name }}</b> ({{ p.created_on }}): {{ p.message }}</span>
+{% if p.status == 'open' %}<form method="post" action="{{ url_for('close_report', id=p.id) }}"><button>Mark reviewed</button></form>{% else %}<span>Reviewed</span>{% endif %}</p>
+{% else %}<p>No reports yet.</p>{% endfor %}{% endblock %}

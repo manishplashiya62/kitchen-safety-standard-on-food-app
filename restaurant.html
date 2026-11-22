@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block body %}
+<h1>{{ r.name }}</h1><p class="lead">{{ r.cuisine }} in {{ r.area }}</p>
+<section class="safety"><h2>Kitchen safety</h2>{% include "_badge.html" %}
+{% if s.state != 'none' %}<p>Inspected by {{ s.inspector }}. {% if s.state == 'verified' %}Valid until {{ s.expires }}.{% else %}Expired on {{ s.expires }}.{% endif %}</p>
+<ul class="checks">{% for k, (label, w) in checks.items() %}<li class="{{ 'pass' if k in s.passed else 'fail' }}">{{ 'Passed' if k in s.passed else 'Failed' }}: {{ label }}</li>{% endfor %}</ul>
+{% if s.notes %}<p><i>Inspector notes: {{ s.notes }}</i></p>{% endif %}{% endif %}
+<details><summary>Inspection history ({{ history|length }})</summary><table>
+<tr><th>Date</th><th>Grade</th><th>Score</th><th>Inspector</th></tr>
+{% for h in history %}<tr><td>{{ h.inspected_on }}</td><td>{{ grade(h.score) }}</td><td>{{ h.score }}</td><td>{{ h.inspector }}</td></tr>{% endfor %}</table></details></section>
+<h2>Menu</h2>{% for d in dishes %}<form class="dish" method="post" action="{{ url_for('cart_add', did=d.id) }}">
+<span>{{ d.name }}</span><span>₹{{ d.price }}</span><button>Add to cart</button></form>{% endfor %}
+<h2>Saw a hygiene problem?</h2><form method="post" action="{{ url_for('report', rid=r.id) }}">
+<textarea name="message" rows="3" placeholder="What did you notice, and when?" required></textarea><button>Send report</button></form>
+{% endblock %}

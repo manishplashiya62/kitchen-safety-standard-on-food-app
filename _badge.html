@@ -1,0 +1,8 @@
+<div class="placard {{ 'ok' if s.state == 'verified' else 'warn' if s.state == 'expired' else 'none' }}">
+  {% if s.state == 'none' %}
+    <b>—</b><span>No inspection</span>
+  {% else %}
+    <b>{{ s.grade }}</b>
+    <span>{{ s.score }}/100<br>{{ 'Verified' if s.state == 'verified' else 'Expired' }}</span>
+  {% endif %}
+</div>

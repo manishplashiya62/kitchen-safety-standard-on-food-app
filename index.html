@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block body %}
+<h1>Order from kitchens that have been inspected</h1>
+<p class="lead">Every badge comes from a dated inspection by a named inspector. Badges expire after 180 days.</p>
+<form class="filters" method="get">
+<label><input type="checkbox" name="verified" value="1" {{ 'checked' if verified_only }}> Verified kitchens only</label>
+<label>Minimum grade <select name="grade"><option value="">Any</option>
+{% for g in 'ABC' %}<option {{ 'selected' if min_grade==g }}>{{ g }}</option>{% endfor %}</select></label>
+<button>Apply</button></form>
+<div class="grid">{% for r, s in rows %}<a class="card" href="{{ url_for('restaurant', rid=r.id) }}">
+<div><h2>{{ r.name }}</h2><p>{{ r.cuisine }} in {{ r.area }}</p></div>{% include "_badge.html" %}</a>
+{% else %}<p>No kitchens match these filters.</p>{% endfor %}</div>{% endblock %}
